@@ -1,4 +1,4 @@
-# High-Availability Web Architecture with Docker & NGINX Load Balancing
+# ⚖️ High-Availability Web Architecture with Docker & NGINX Load Balancing
 
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![NGINX](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)](https://nginx.org/)
@@ -8,17 +8,17 @@ A production-grade demonstration of **High Availability (HA)**, **Load Balancing
 
 ---
 
-##  System Architecture
+## 🗺️ System Architecture
 
 The following diagram illustrates how incoming client requests are routed through the NGINX Load Balancer to the active backend servers over an isolated Docker bridge network.
 
 ```mermaid
 graph TD
-    Client Client Web Browser"] -->|HTTP Request / Port 80| Nginx Nginx Load Balancer (nginx-lb)"]
+    Client["🌐 Client Web Browser"] -->|HTTP Request / Port 80| Nginx["⚖️ Nginx Load Balancer (nginx-lb)"]
     
     subgraph docker_network ["Isolated Bridge Network: ha-network"]
-        Nginx -->|Proxy Pass - Round Robin| Web1 Web Server 1 (web1:80)"]
-        Nginx -->|Proxy Pass - Round Robin| Web2 Web Server 2 (web2:80)"]
+        Nginx -->|Proxy Pass - Round Robin| Web1["🖥️ Web Server 1 (web1:80)"]
+        Nginx -->|Proxy Pass - Round Robin| Web2["🖥️ Web Server 2 (web2:80)"]
     end
 
     classDef default fill:#f8f9fa,stroke:#343a40,stroke-width:1px;
@@ -30,7 +30,7 @@ graph TD
 
 ---
 
-## Key Features
+## 🚀 Key Features
 
 * **High Availability**: Automatically redirects traffic if one or more backend containers go offline.
 * **Load Distribution**: Demonstrates Round-Robin distribution with optional support for alternative routing algorithms (Least Connections, IP Hash).
@@ -39,7 +39,7 @@ graph TD
 
 ---
 
-## Step 1 — Prerequisites & Environment Setup
+## 🛠️ Step 1 — Prerequisites & Environment Setup
 
 Ensure your local machine or VM has **Docker** and **Docker Compose** installed:
 
@@ -53,7 +53,7 @@ docker-compose --version
 
 ---
 
-## Step 2 — Create Project Structure
+## 📁 Step 2 — Create Project Structure
 
 Set up the project workspace in a dedicated directory:
 
@@ -78,11 +78,11 @@ ha-demo/
 
 ---
 
-## Step 3 — Create Backend Servers
+## 💻 Step 3 — Create Backend Servers
 
 To make the load balancing immediately obvious, we will create visually distinct pages for each server with a premium, responsive layout.
 
-### Web Server 1 (`web1/index.html`)
+### 🔹 Web Server 1 (`web1/index.html`)
 
 Create and edit `web1/index.html`:
 
@@ -132,7 +132,7 @@ Create and edit `web1/index.html`:
 </head>
 <body>
     <div class="card">
-        <h1 Web Server 1</h1>
+        <h1>🖥️ Web Server 1</h1>
         <p>This request was processed by the primary server container.</p>
         <span class="status">Active & Healthy</span>
     </div>
@@ -140,7 +140,7 @@ Create and edit `web1/index.html`:
 </html>
 ```
 
-### Web Server 2 (`web2/index.html`)
+### 🔸 Web Server 2 (`web2/index.html`)
 
 Create and edit `web2/index.html`:
 
@@ -190,7 +190,7 @@ Create and edit `web2/index.html`:
 </head>
 <body>
     <div class="card">
-        <h1> Web Server 2</h1>
+        <h1>🖥️ Web Server 2</h1>
         <p>This request was processed by the secondary server container.</p>
         <span class="status">Active & Healthy</span>
     </div>
@@ -200,7 +200,7 @@ Create and edit `web2/index.html`:
 
 ---
 
-## Step 4 — Configure NGINX Load Balancer
+## ⚙️ Step 4 — Configure NGINX Load Balancer
 
 Create `nginx/nginx.conf` and paste the configuration below. This defines the upstream group containing both backend instances and configures NGINX to route requests.
 
@@ -246,7 +246,7 @@ http {
 
 ---
 
-## Step 5 — Create `docker-compose.yml`
+## 🐳 Step 5 — Create `docker-compose.yml`
 
 Create `docker-compose.yml` in your main project folder:
 
@@ -256,7 +256,6 @@ version: '3.8'
 services:
   web1:
     image: nginx:alpine
-    container_name: web1
     volumes:
       - ./web1:/usr/share/nginx/html:ro
     networks:
@@ -265,7 +264,6 @@ services:
 
   web2:
     image: nginx:alpine
-    container_name: web2
     volumes:
       - ./web2:/usr/share/nginx/html:ro
     networks:
@@ -293,7 +291,7 @@ networks:
 
 ---
 
-## Step 6 — Run the Stack
+## 🏃 Step 6 — Run the Stack
 
 Launch the environment in the background using:
 
@@ -311,13 +309,13 @@ You should see output similar to this:
 ```text
 CONTAINER ID   IMAGE          COMMAND                  STATUS         PORTS                NAMES
 8f2ba57b12cd   nginx:alpine   "/docker-entrypoint.…"   Up 5 seconds   0.0.0.0:80->80/tcp   nginx-lb
-df8b64bc7d12   nginx:alpine   "/docker-entrypoint.…"   Up 6 seconds   80/tcp               web1
-a9d3e5a420cd   nginx:alpine   "/docker-entrypoint.…"   Up 6 seconds   80/tcp               web2
+df8b64bc7d12   nginx:alpine   "/docker-entrypoint.…"   Up 6 seconds   80/tcp               ha-demo-web1-1
+a9d3e5a420cd   nginx:alpine   "/docker-entrypoint.…"   Up 6 seconds   80/tcp               ha-demo-web2-1
 ```
 
 ---
 
-## Step 7 — Test Load Balancing
+## 🧪 Step 7 — Test Load Balancing
 
 ### Method A: Web Browser
 Open your browser and navigate to `http://localhost` (or your virtual machine's public IP). Refresh the page multiple times. 
@@ -342,12 +340,12 @@ Web Server 2
 
 ---
 
-## Step 8 — Simulate Failure (High Availability Demo)
+## 🛡️ Step 8 — Simulate Failure (High Availability Demo)
 
 To prove high availability, stop the primary backend web server:
 
 ```bash
-docker stop web1
+docker-compose stop web1
 ```
 
 Now, make requests again:
@@ -369,28 +367,32 @@ Web Server 2
 
 Restart the container to bring it back online:
 ```bash
-docker start web1
+docker-compose start web1
 ```
 
 ---
 
-## Step 9 — Dynamic Scaling
+## 📈 Step 9 — Dynamic Scaling
 
 To scale the backend instances dynamically to handle higher traffic volumes:
 
 ```bash
+# Scale the web1 service to 3 instances
 docker-compose up -d --scale web1=3
+
+# Reload NGINX so it discovers the new backend container IPs
+docker exec nginx-lb nginx -s reload
 ```
 
 Check the updated containers:
 ```bash
 docker ps
 ```
-You will now see multiple container instances of `web1` working in parallel behind the load balancer.
+You will now see multiple container instances of `web1` working in parallel (e.g., `ha-demo-web1-1`, `ha-demo-web1-2`, `ha-demo-web1-3`) behind the load balancer.
 
 ---
 
-## Viva & Interview Q&A Preparation
+## 🎙️ Viva & Interview Q&A Preparation
 
 Prepare for technical evaluations and architecture defenses with these common questions:
 
