@@ -1,4 +1,4 @@
-# ⚖️ High-Availability Web Architecture with Docker & NGINX Load Balancing
+# High-Availability Web Architecture with Docker & NGINX Load Balancing
 
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![NGINX](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)](https://nginx.org/)
@@ -8,7 +8,7 @@ A production-grade demonstration of **High Availability (HA)**, **Load Balancing
 
 ---
 
-## 🗺️ System Architecture
+## System Architecture
 
 The following diagram illustrates how incoming client requests are routed through the NGINX Load Balancer to the active backend servers over an isolated Docker bridge network.
 
@@ -30,7 +30,7 @@ graph TD
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 * **High Availability**: Automatically redirects traffic if one or more backend containers go offline.
 * **Load Distribution**: Demonstrates Round-Robin distribution with optional support for alternative routing algorithms (Least Connections, IP Hash).
@@ -39,7 +39,7 @@ graph TD
 
 ---
 
-## 🛠️ Step 1 — Prerequisites & Environment Setup
+## Step 1 — Prerequisites & Environment Setup
 
 Ensure your local machine or VM has **Docker** and **Docker Compose** installed:
 
@@ -53,7 +53,7 @@ docker-compose --version
 
 ---
 
-## 📁 Step 2 — Create Project Structure
+## Step 2 — Create Project Structure
 
 Set up the project workspace in a dedicated directory:
 
@@ -78,11 +78,11 @@ ha-demo/
 
 ---
 
-## 💻 Step 3 — Create Backend Servers
+## Step 3 — Create Backend Servers
 
 To make the load balancing immediately obvious, we will create visually distinct pages for each server with a premium, responsive layout.
 
-### 🔹 Web Server 1 (`web1/index.html`)
+### Web Server 1 (`web1/index.html`)
 
 Create and edit `web1/index.html`:
 
@@ -140,7 +140,7 @@ Create and edit `web1/index.html`:
 </html>
 ```
 
-### 🔸 Web Server 2 (`web2/index.html`)
+### Web Server 2 (`web2/index.html`)
 
 Create and edit `web2/index.html`:
 
@@ -200,7 +200,7 @@ Create and edit `web2/index.html`:
 
 ---
 
-## ⚙️ Step 4 — Configure NGINX Load Balancer
+## Step 4 — Configure NGINX Load Balancer
 
 Create `nginx/nginx.conf` and paste the configuration below. This defines the upstream group containing both backend instances and configures NGINX to route requests.
 
@@ -246,7 +246,7 @@ http {
 
 ---
 
-## 🐳 Step 5 — Create `docker-compose.yml`
+## Step 5 — Create `docker-compose.yml`
 
 Create `docker-compose.yml` in your main project folder:
 
@@ -291,7 +291,7 @@ networks:
 
 ---
 
-## 🏃 Step 6 — Run the Stack
+## Step 6 — Run the Stack
 
 Launch the environment in the background using:
 
@@ -315,7 +315,7 @@ a9d3e5a420cd   nginx:alpine   "/docker-entrypoint.…"   Up 6 seconds   80/tcp  
 
 ---
 
-## 🧪 Step 7 — Test Load Balancing
+## Step 7 — Test Load Balancing
 
 ### Method A: Web Browser
 Open your browser and navigate to `http://localhost` (or your virtual machine's public IP). Refresh the page multiple times. 
@@ -340,7 +340,7 @@ Web Server 2
 
 ---
 
-## 🛡️ Step 8 — Simulate Failure (High Availability Demo)
+## Step 8 — Simulate Failure (High Availability Demo)
 
 To prove high availability, stop the primary backend web server:
 
@@ -372,7 +372,7 @@ docker-compose start web1
 
 ---
 
-## 📈 Step 9 — Dynamic Scaling
+## Step 9 — Dynamic Scaling
 
 To scale the backend instances dynamically to handle higher traffic volumes:
 
@@ -392,7 +392,7 @@ You will now see multiple container instances of `web1` working in parallel (e.g
 
 ---
 
-## 🎙️ Viva & Interview Q&A Preparation
+## Viva & Interview Q&A Preparation
 
 Prepare for technical evaluations and architecture defenses with these common questions:
 
